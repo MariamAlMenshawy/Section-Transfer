@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Request Details {% endblock %}
+
+{% block content %}
+<style>
+
+    .detail-wrapper {
+        max-width: 750px; 
+        margin: 60px auto;
+        animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .main-card {
+        background: white;
+        border-radius: 35px;
+        border: none;
+        box-shadow: 0 10px 50px rgba(124, 58, 237, 0.05);
+        padding: 50px; 
+        position: relative;
+    }
+
+    .profile-section {
+        text-align: center;
+        margin-bottom: 45px;
+    }
+
+    .name-title {
+        font-weight: 800;
+        color: #1a202c;
+        font-size: 2rem;
+        letter-spacing: -0.5px;
+    }
+
+    .id-badge {
+        background: #f3f0ff;
+        color: #7c3aed;
+        padding: 6px 18px;
+        border-radius: 100px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+    .swap-capsule {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        background: #fcfaff;
+        border: 1px solid #edf2f7;
+        padding: 30px;
+        border-radius: 25px;
+        margin-bottom: 45px;
+    }
+
+    .label-top {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #a0aec0;
+        margin-bottom: 8px;
+        font-weight: 700;
+    }
+
+    .number-display {
+        font-size: 3rem;
+        font-weight: 900;
+        color: #7c3aed;
+    }
+
+    .arrow-icon {
+        font-size: 1.8rem;
+        color: #7c3aed;
+        opacity: 0.3;
+    }
+
+    .info-box {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .info-card {
+        background: #ffffff;
+        padding: 22px;
+        border-radius: 20px;
+        border: 1px solid #f1f4f8;
+        transition: all 0.3s ease;
+    }
+
+    .info-card:hover { 
+        border-color: #7c3aed; 
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(124, 58, 237, 0.05);
+    }
+
+    .info-card i { 
+        color: #7c3aed; 
+        background: #f3f0ff;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        margin-bottom: 15px; 
+        font-size: 1.1rem; 
+    }
+
+    .info-card .t { color: #94a3b8; font-size: 0.85rem; font-weight: 500; }
+    .info-card .v { color: #2d3748; font-weight: 700; font-size: 1.05rem; margin-top: 2px; }
+
+    .tg-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        background: #5304a3; 
+        color: white;
+        text-decoration: none;
+        padding: 20px;
+        border-radius: 22px;
+        margin-top: 35px;
+        font-weight: 700;
+        transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .tg-button:hover {
+        background: #7c3aed;
+        color: white;
+        transform: scale(1.03);
+        box-shadow: 0 15px 30px rgba(124, 58, 237, 0.2);
+    }
+</style>
+
+<div class="detail-wrapper">
+    <div class="main-card">
+        
+        <div class="profile-section">
+            <h1 class="name-title">{{ transfer_request.student_id.full_name }}</h1>
+            <span class="id-badge">Student ID: {{ transfer_request.student_id.University_id }}</span>
+        </div>
+
+        <div class="swap-capsule">
+            <div class="section-unit">
+                <div class="label-top">Current</div>
+                <div class="number-display">{{ transfer_request.current_section }}</div>
+            </div>
+            
+            <div class="arrow-icon">
+                <i class="bi bi-arrow-right"></i>
+            </div>
+
+            <div class="section-unit">
+                <div class="label-top">Target</div>
+                <div class="number-display">{{ transfer_request.target_section }}</div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <div class="info-card">
+                <i class="bi bi-mortarboard"></i>
+                <div class="t">Academic Year</div>
+                <div class="v">{{ transfer_request.student_id.get_academic_year_display }}</div>
+            </div>
+            <div class="info-card">
+                <i class="bi bi-clock"></i>
+                <div class="t">Posted Date</div>
+                <div class="v">{{ transfer_request.created_at|date:"d M, Y" }}</div>
+            </div>
+            <div class="info-card">
+                <i class="bi bi-phone"></i>
+                <div class="t">Phone Number</div>
+                <div class="v">{{ transfer_request.student_id.phone }}</div>
+            </div>
+            <div class="info-card">
+                <i class="bi bi-send"></i>
+                <div class="t">Telegram Handle</div>
+                <div class="v">{{ transfer_request.student_id.telegram_user }}</div>
+            </div>
+        </div>
+
+        <a href="{% url 'browse_requests' %}" target="_blank" class="tg-button">
+            <i class="bi bi-chevron-left"></i> Back to Browse
+        </a>
+
+    </div>
+</div>
+{% endblock %}

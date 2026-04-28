@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Add Request - إضافة طلب {% endblock %}
+
+{% block content %}
+<style>
+    .add-request-container {
+        max-width: 800px;
+        margin: 40px auto 80px;
+        background: white;
+        padding: 40px;
+        border-radius: 25px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+    }
+
+    .form-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .form-header i {
+        font-size: 40px;
+        color: #7c3aed;
+        margin-bottom: 15px;
+        display: block;
+    }
+
+    .form-header h2 {
+        font-weight: 700;
+        color: #2d3436;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #4a4a4a;
+        margin-bottom: 8px;
+    }
+
+    .form-control, .form-select {
+        border-radius: 12px;
+        padding: 12px 15px;
+        border: 2px solid #f1f1f1;
+        transition: 0.3s;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #7c3aed;
+        box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
+        outline: none;
+    }
+
+    .submit-btn {
+        background: #7c3aed;
+        color: white;
+        width: 100%;
+        padding: 14px;
+        border-radius: 12px;
+        border: none;
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-top: 20px;
+        transition: 0.3s;
+    }
+
+    .submit-btn:hover {
+        background: #6d28d9;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+    }
+    .form-footer-note {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 0.9rem;
+        color: #636e72;
+    }
+</style>
+
+<div class="container">
+    <div class="add-request-container">
+        <div class="form-header">
+            <i class="bi bi-plus-circle-fill"></i>
+            <h2>Create Transfer Request</h2>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="mb-3 text-start">
+                    <label for="{{ field.id_for_label }}" class="form-label" style="font-weight: 600; color: #4a4a4a;">
+                        {{ field.label }}
+                    </label>
+                    
+                    {{ field }}
+                    
+                    {% if field.errors %}
+                        <div class="text-danger small">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            
+            <button type="submit" class="submit-btn">Post Request</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

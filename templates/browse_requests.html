@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Browse Requests {% endblock %}
+
+{% block content %}
+<style>
+    .browse-container {
+        padding: 40px 0;
+    }
+
+    .page-title {
+        text-align: center;
+        font-weight: 800;
+        color: #2d3436;
+        margin-bottom: 40px;
+    }
+
+    .request-card {
+        background: white;
+        border-radius: 20px;
+        padding: 25px;
+        transition: 0.3s;
+        border: 1px solid #f1f1f1;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+        height: 100%;
+    }
+
+    .request-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 30px rgba(124, 58, 237, 0.1);
+        border-color: #7c3aed;
+    }
+
+    .student-name {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #2d3436;
+        margin-bottom: 5px;
+    }
+
+    .academic-year {
+        display: inline-block;
+        background: #f3f0ff;
+        color: #7c3aed;
+        padding: 4px 12px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .section-box-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #fcfcfc;
+        padding: 15px;
+        border-radius: 15px;
+        border: 1px dashed #e0e0e0;
+    }
+
+    .section-mini-box {
+        background: white;
+        border: 2px solid #7c3aed;
+        color: #7c3aed;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        font-weight: 800;
+        font-size: 1.1rem;
+    }
+
+    .section-label-tiny {
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        margin-bottom: -2px;
+        color: #b2bec3;
+    }
+
+    .swap-icon {
+        color: #7c3aed;
+        font-size: 1.2rem;
+    }
+
+    .view-details-btn {
+        display: block;
+        text-align: center;
+        background: #7c3aed;
+        color: white;
+        text-decoration: none;
+        padding: 10px;
+        border-radius: 12px;
+        margin-top: 20px;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    .view-details-btn:hover {
+        background: #6d28d9;
+        color: white;
+    }
+</style>
+
+<div class="container browse-container">
+    <h2 class="page-title">Available <span style="color: #7c3aed;">Transfer Requests</span></h2>
+
+    <div class="row g-4">
+        {% for request_item in all_requests %}
+        <div class="col-md-6 col-lg-4">
+            <div class="request-card">
+                <div class="student-name">{{ request_item.student_id.full_name }}</div>
+                
+                <div class="academic-year">
+                    <i class="bi bi-mortarboard-fill me-1"></i>
+                    {{ request_item.student_id.get_academic_year_display }}
+                </div>
+
+                <div class="section-box-container">
+                    <div class="text-center flex-grow-1">
+                        <span class="section-label-tiny">From</span>
+                        <div class="section-mini-box mx-auto">{{ request_item.current_section }}</div>
+                    </div>
+
+                    <div class="swap-icon">
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+
+                    <div class="text-center flex-grow-1">
+                        <span class="section-label-tiny">To</span>
+                        <div class="section-mini-box mx-auto">{{ request_item.target_section }}</div>
+                    </div>
+                </div>
+
+                <a href="{% url 'request_detail' request_item.id %}" class="view-details-btn">
+                    View Contact Info
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <i class="bi bi-search" style="font-size: 3rem; color: #d1d5db;"></i>
+            <p class="mt-3 text-muted">No requests found yet. Be the first to add one!</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

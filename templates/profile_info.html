@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profile - {{ user.username }}{% endblock %}
+
+{% block content %}
+<div class="container profile-wrapper">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+
+            <div class="card border-0 shadow-lg profile-card">
+                <div class="card-body text-center p-4">
+
+                    <!-- العنوان -->
+                    <h2 class="profile-title mb-4">
+                        👤 My Profile
+                    </h2>
+
+                    <!-- الفورم -->
+                    <form method="post" class="form" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        {% include 'includes/form.html' %}
+
+                        <button type="submit" class="btn save-btn w-90 mt-4">
+                            Save Changes
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+
+.profile-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #682f9e;
+}
+
+/* card */
+.profile-card {
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+}
+
+/* spacing between fields */
+form p {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* label */
+form label {
+    font-size: 15px;
+    margin-bottom: 5px;
+    color: #574b63;
+    font-weight: 600;
+
+    display: block;
+    width: 80%;
+    margin: 5px auto 1px;
+    text-align: left;
+}
+
+/* input */
+form input {
+    display: block;
+    width: 80%;
+    margin: 0px auto 5px;
+    padding: 8px 6px;
+    border: 1px solid #d7d1db;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #f9fafb;
+    transition: 0.2s;
+}
+
+form input:focus {
+    outline: none;
+    border-color: #9f3bf6;
+    background-color: #fff;
+}
+
+/* body */
+body {
+    padding-top: 90px !important;
+    justify-content: flex-start !important;
+}
+
+/* button */
+.save-btn {
+    background: linear-gradient(135deg, #9f3bf6, #8825eb);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 4px 10px;
+    font-weight: 600;
+    transition: 0.3s;
+    width: 60%;
+    height: 45px;
+    font-size: 20px;
+}
+
+.save-btn:hover {
+    background: linear-gradient(135deg, #9837ff, #8e37ff);
+    transform: translateY(-2px);
+    color: white;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+}
+
+</style>
+
+{% endblock %}
