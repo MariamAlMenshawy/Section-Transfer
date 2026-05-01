@@ -38,6 +38,24 @@ def add_request(request):
 
 def browse_requests(request):
     all_requests = TransferRequest.objects.all()
+
+    year = request.GET.get('year')
+    if year :
+        all_requests = all_requests.filter(student_id__academic_year = year)
+
+    current_section = request.GET.get('current_section')
+    if current_section:
+        all_requests = all_requests.filter(current_section = current_section)
+
+    target_section = request.GET.get('target_section')
+    if target_section:
+        all_requests = all_requests.filter(target_section = target_section)
+
+    #delete by ID
+    if request.method == "POST":
+        University_id = request.POST.get('University_id')
+        TransferRequest.objects.filter(student_id__University_id = University_id).delete()
+
     return render(request,'browse_requests.html',{'all_requests':all_requests})
 
 def request_detail(request,transferRequest_id):

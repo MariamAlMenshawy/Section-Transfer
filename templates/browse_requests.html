@@ -104,11 +104,143 @@
         background: #6d28d9;
         color: white;
     }
+
+    .filter-box {
+        background: #f0ecff;
+        padding: 10px;
+        border-radius: 15px;
+        margin-bottom: 25px;
+        margin-top: -20px;
+    }
+
+    .filter-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: nowrap;
+        margin-top: -10px;
+
+    }
+
+    .filter-row input,
+    .filter-row select {
+        flex: 1;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        padding: 5px;
+    }
+    .filter-row input:focus,
+    .filter-row select:focus {
+        outline: none;
+        border-color: #7c3aed;
+        box-shadow: 0 0 5px rgba(124, 58, 237, 0.2);
+    }
+
+    .filter-btn {
+        margin-top: 27px;
+        text-align: center;
+    }
+
+    .filter-btn button {
+        background: #7c3aed;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    .filter-btn button:hover {
+        background: #4a01be;
+    }
+
+    .delete-row {
+        display: flex;
+        gap: 10px;
+    }
+
+    .delete-row input {
+        flex: 1;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        padding: 5px;
+    }
+    .delete-row input:focus {
+        outline: none;
+        border-color: #ab0101;
+        box-shadow: 0 0 5px rgba(124, 58, 237, 0.2);
+    }
+
+    .delete-row button {
+        background: #bf0303;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 8px;
+        transition: 0.3s;
+        font-weight: 600;
+    }
+    .delete-row button:hover {
+        background: #9a0101 ;
+    }
+    .filter-group {
+        margin-top: 5px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .filter-group label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #270392;
+        margin-bottom: 3px;
+    }
 </style>
 
 <div class="container browse-container">
-    <h2 class="page-title">Available <span style="color: #7c3aed;">Transfer Requests</span></h2>
 
+    <div class="filter-box">
+        <form method="GET">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label>Academic Year</label>
+                    <select name="year">
+                        <option value="">All Years</option>
+                        <option value="1" {% if request.GET.year == "1" %}selected{% endif %}>First Year</option>
+                        <option value="2"{% if request.GET.year == "2" %}selected{% endif %}>Second Year</option>
+                        <option value="3"{% if request.GET.year == "3" %}selected{% endif %}>Third Year</option>
+                        <option value="4"{% if request.GET.year == "4" %}selected{% endif %}>Fourth Year</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Current Section</label>
+                    <input type="text" name="current_section"
+                        value="{{ request.GET.current_section }}">
+                </div>
+                <div class="filter-group">
+                    <label>Target Section</label>
+                    <input type="text" name="target_section"
+                        value="{{ request.GET.target_section }}">
+                </div>
+                <div class="filter-btn">
+                    <button type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="filter-group">
+                <label>Enter Your University ID To Delete Your Requests</label>
+                <div class="delete-row">
+                    <input type="text" name="University_id">
+                    <button type="submit" name="delete_requests">Delete</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
     <div class="row g-4">
         {% for request_item in all_requests %}
         <div class="col-md-6 col-lg-4">

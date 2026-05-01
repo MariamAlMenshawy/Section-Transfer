@@ -13,7 +13,7 @@ class Student(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
 
     full_name = models.CharField(max_length=200)
-    University_id = models.CharField(max_length=10,unique=True)
+    University_id = models.CharField(max_length=10)
     academic_year = models.IntegerField(choices=ACADEMICYEAR_CHOICES)
     phone = models.CharField(max_length=11)
     telegram_user = models.CharField(max_length=25)
