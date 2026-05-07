@@ -196,9 +196,34 @@
         color: #270392;
         margin-bottom: 3px;
     }
+    .custom-message{
+        padding: 10px 20px;
+        border-radius: 12px;
+        margin-bottom: 15px;
+        margin-top: -25px;
+        font-weight: 600;
+        animation: fadeIn 0.4s ease;
+    }
+
+    .custom-message.success{
+        color: #0f8339;
+    }
+
+    .custom-message.error{
+        color: #ba1313;
+    }
+
 </style>
 
 <div class="container browse-container">
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="custom-message {{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
 
     <div class="filter-box">
         <form method="GET">

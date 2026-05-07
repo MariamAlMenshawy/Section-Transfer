@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render,get_object_or_404
 from .models import Student,TransferRequest
 from django.contrib.auth.models import User
 from .forms import AddNewRequest
+from django.contrib import messages
 
 # Create your views here.
 
@@ -54,7 +55,16 @@ def browse_requests(request):
     #delete by ID
     if request.method == "POST":
         University_id = request.POST.get('University_id')
-        TransferRequest.objects.filter(student_id__University_id = University_id).delete()
+        check_request = TransferRequest.objects.filter(
+            student_id__University_id = University_id ,
+            student_id__user = request.user
+        )
+        if check_request.exists():
+            check_request.delete()
+            messages.success(request,"Requests deleted successfully.")
+        else:
+            messages.error(request,"User cannot delete these requests.")
+        return redirect('browse_requests')
 
     return render(request,'browse_requests.html',{'all_requests':all_requests})
 
